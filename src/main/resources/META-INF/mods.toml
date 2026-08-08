@@ -1,22 +1,21 @@
 modLoader="javafml"
-loaderVersion="[43,)"
-license="All rights reserved"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
 [[mods]]
-modId="ic2rei"
-version="${file.jarVersion}"
-displayName="IC2 - REI Plugin"
-credits="IC2Classic & REI dev teams."
-authors="CrossVas"
-description='''
-Compat Layer between IC2Classic and REI mods.
-'''
-[[dependencies.ic2rei]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+credits="${mod_credits}"
+authors="${mod_authors}"
+description='''${mod_description}'''
+
+[[dependencies.${mod_id}]]
     modId="roughlyenoughitems"
     mandatory=true
     versionRange="[9.1.663,)"
     ordering="AFTER"
     side="BOTH"
-[[dependencies.ic2rei]]
+[[dependencies.${mod_id}]]
     modId="ic2"
     mandatory=true
     versionRange="[1.19.2-2.0.9,)"
