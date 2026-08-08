@@ -103,10 +103,9 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.2-43.3.0'
-    implementation fg.deobf("curse.maven:ic2-classic-242942:5137503")
-    implementation fg.deobf("curse.maven:advanced-solars-classic-314835:4856232")
-    implementation fg.deobf("curse.maven:cofh-core-69162:4801049")
+    minecraft 'net.minecraftforge:forge:1.19.2-43.3.13'
+    implementation fg.deobf("curse.maven:carbon-config-898104:8018088")
+    implementation fg.deobf("curse.maven:ic2-classic-242942:8545995")
     
     implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:8.3.103")
     implementation fg.deobf("dev.architectury:architectury-forge:6.5.85")
@@ -114,7 +113,6 @@ dependencies {
     implementation fg.deobf("me.shedaniel:RoughlyEnoughItems-forge:9.2.738")
 
     implementation fg.deobf("curse.maven:jei-238222:4712866")
-    runtimeOnly fg.deobf("curse.maven:mekanism-268560:4644795")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
