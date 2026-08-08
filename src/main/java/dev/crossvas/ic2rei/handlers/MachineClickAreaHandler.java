@@ -2,25 +2,27 @@ package dev.crossvas.ic2rei.handlers;
 
 import dev.crossvas.ic2rei.utils.CategoryIDs;
 import ic2.core.block.base.tiles.impls.BaseGeneratorTileEntity;
+import ic2.core.block.base.tiles.impls.machine.multi.BaseColossalMachineTileEntity;
 import ic2.core.block.generators.tiles.FuelGenTileEntity;
 import ic2.core.block.generators.tiles.GeoGenTileEntity;
 import ic2.core.block.generators.tiles.LiquidFuelGenTileEntity;
-import ic2.core.block.machines.tiles.ev.ColossalFurnace;
-import ic2.core.block.machines.tiles.ev.PlasmafierTileEntity;
+import ic2.core.block.machines.components.ev.ColossalMachineComponent;
+import ic2.core.block.machines.tiles.ev.*;
 import ic2.core.block.machines.tiles.hv.MassFabricatorTileEntity;
 import ic2.core.block.machines.tiles.hv.PressureAlloyFurnaceTileEntity;
-import ic2.core.block.machines.tiles.hv.UraniumEnchricherTileEntity;
+import ic2.core.block.machines.tiles.hv.UraniumEnricherTileEntity;
 import ic2.core.block.machines.tiles.lv.*;
 import ic2.core.block.machines.tiles.mv.*;
 import ic2.core.block.machines.tiles.nv.*;
 import ic2.core.inventory.container.ContainerComponent;
 import ic2.core.inventory.gui.ComponentContainerScreen;
-import ic2.core.inventory.gui.components.simple.ChargebarComponent;
+import ic2.core.inventory.gui.components.simple.ChargeBarComponent;
 import ic2.core.inventory.gui.components.simple.FuelComponent;
 import ic2.core.inventory.gui.components.simple.ProgressComponent;
 import ic2.core.inventory.gui.components.simple.PumpComponent;
 import ic2.core.utils.collection.CollectionUtils;
 import ic2.core.utils.math.geometry.Box2i;
+import ic2.core.utils.math.geometry.Vec2i;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.registry.screen.ClickArea;
@@ -40,18 +42,22 @@ public class MachineClickAreaHandler implements ClickArea<ComponentContainerScre
         MAPPED.put(MaceratorTileEntity.class, List.of(CategoryIDs.MACERATOR));
         MAPPED.put(RotaryMaceratorTileEntity.class, List.of(CategoryIDs.MACERATOR));
         MAPPED.put(StoneMaceratorTileEntity.class, List.of(CategoryIDs.MACERATOR));
+        MAPPED.put(ColossalMacerator.class, List.of(CategoryIDs.MACERATOR));
 
         MAPPED.put(ExtractorTileEntity.class, List.of(CategoryIDs.EXTRACTOR));
         MAPPED.put(CentrifugalExtractorTileEntity.class, List.of(CategoryIDs.EXTRACTOR));
+        MAPPED.put(ColossalExtractor.class, List.of(CategoryIDs.EXTRACTOR));
 
         MAPPED.put(CompressorTileEntity.class, List.of(CategoryIDs.COMPRESSOR));
         MAPPED.put(SingularityCompressorTileEntity.class, List.of(CategoryIDs.COMPRESSOR));
+        MAPPED.put(ColossalCompressor.class, List.of(CategoryIDs.COMPRESSOR));
 
         MAPPED.put(ElectrolyzerTileEntity.class, List.of(CategoryIDs.ELECTROLYZER));
         MAPPED.put(ChargedElectrolyzerTileEntity.class, List.of(CategoryIDs.ELECTROLYZER));
 
         MAPPED.put(RecyclerTileEntity.class, List.of(CategoryIDs.RECYCLER));
         MAPPED.put(CompactingRecyclerTileEntity.class, List.of(CategoryIDs.RECYCLER));
+        MAPPED.put(ColossalRecycler.class, List.of(CategoryIDs.RECYCLER));
 
         MAPPED.put(AlloySmelterTileEntity.class, List.of(CategoryIDs.ALLOY_SMELTER));
         MAPPED.put(PressureAlloyFurnaceTileEntity.class, List.of(CategoryIDs.ALLOY_SMELTER));
@@ -68,7 +74,7 @@ public class MachineClickAreaHandler implements ClickArea<ComponentContainerScre
 
         MAPPED.put(SawmillTileEntity.class, List.of(CategoryIDs.SAWMILL));
         MAPPED.put(RefineryTileEntity.class, List.of(CategoryIDs.REFINERY));
-        MAPPED.put(UraniumEnchricherTileEntity.class, List.of(CategoryIDs.ENRICHER));
+        MAPPED.put(UraniumEnricherTileEntity.class, List.of(CategoryIDs.ENRICHER));
 
         MAPPED.put(FuelGenTileEntity.class, List.of(CategoryIDs.GENERATOR));
         MAPPED.put(LiquidFuelGenTileEntity.class, List.of(CategoryIDs.FLUID_GENERATOR));
@@ -80,6 +86,7 @@ public class MachineClickAreaHandler implements ClickArea<ComponentContainerScre
         MAPPED.put(IronFurnaceTileEntity.class, List.of(BuiltinPlugin.SMELTING));
         MAPPED.put(ElectricFurnaceTileEntity.class, List.of(BuiltinPlugin.SMELTING));
         MAPPED.put(InductionFurnaceTileEntity.class, List.of(BuiltinPlugin.SMELTING));
+        MAPPED.put(ColossalFurnace.class, List.of(BuiltinPlugin.SMELTING));
 
         MAPPED.put(ElectricSmokerTileEntity.class, List.of(BuiltinPlugin.SMOKING));
         MAPPED.put(SmokerInductionFurnaceTileEntity.class, List.of(BuiltinPlugin.SMOKING));
@@ -105,6 +112,18 @@ public class MachineClickAreaHandler implements ClickArea<ComponentContainerScre
                         Rectangle progressBox = new Rectangle(container.getGuiLeft() + box.getX(), container.getGuiTop() + box.getY(), box.getWidth(), box.getHeight());
                         if (progressBox.contains(mousePoint)) {
                             return ClickArea.Result.success().categories(MAPPED.get(comp.getHolder().getClass()).stream().toList());
+                        }
+                    }
+
+                    // colossal
+                    if (comp.getHolder() instanceof BaseColossalMachineTileEntity colossalMachineTile) {
+                        ColossalMachineComponent component = container.getComponentFromClass(ColossalMachineComponent.class);
+                        if (component != null) {
+                            int hovered = getHoveredColossalProgress(colossalMachineTile, container.getGuiLeft(), container.getGuiTop(), mousePoint);
+                            if (hovered != -1) {
+                                return ClickArea.Result.success()
+                                        .categories(MAPPED.get(comp.getHolder().getClass()).stream().toList());
+                            }
                         }
                     }
 
@@ -145,7 +164,7 @@ public class MachineClickAreaHandler implements ClickArea<ComponentContainerScre
                     }
                     // special - chargeBar component
                     if (comp.getHolder() instanceof ElectrolyzerTileEntity || comp.getHolder() instanceof ChargedElectrolyzerTileEntity) {
-                        ChargebarComponent chargebarComponent = container.getComponentFromClass(ChargebarComponent.class);
+                        ChargeBarComponent chargebarComponent = container.getComponentFromClass(ChargeBarComponent.class);
                         if (chargebarComponent != null) {
                             Box2i chargeBarBox = chargebarComponent.getBox();
                             Rectangle progressBox = new Rectangle(container.getGuiLeft() + chargeBarBox.getX(), container.getGuiTop() + chargeBarBox.getY(), chargeBarBox.getWidth(), chargeBarBox.getHeight());
@@ -166,5 +185,23 @@ public class MachineClickAreaHandler implements ClickArea<ComponentContainerScre
             }
         }
         return ClickArea.Result.success();
+    }
+
+    private static int getHoveredColossalProgress(BaseColossalMachineTileEntity tile, int guiLeft, int guiTop, Point mousePoint) {
+        int size = tile.getSlotsInUse();
+
+        if (size <= 0 || size >= ColossalMachineComponent.PROGRESS.length) {
+            return -1;
+        }
+
+        Vec2i[] positions = ColossalMachineComponent.PROGRESS[size];
+        for (int i = 0; i < positions.length; i++) {
+            Vec2i pos = positions[i];
+            Rectangle box = new Rectangle(guiLeft + pos.getX(), guiTop + pos.getY(), 24, 16);
+            if (box.contains(mousePoint)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
