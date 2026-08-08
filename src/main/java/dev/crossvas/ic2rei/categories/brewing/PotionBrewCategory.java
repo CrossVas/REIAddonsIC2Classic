@@ -1,6 +1,5 @@
 package dev.crossvas.ic2rei.categories.brewing;
 
-import dev.crossvas.ic2rei.IC2REI;
 import dev.crossvas.ic2rei.IC2REIPlugin;
 import dev.crossvas.ic2rei.displays.brewing.PotionBrewDisplay;
 import dev.crossvas.ic2rei.utils.CategoryIDs;

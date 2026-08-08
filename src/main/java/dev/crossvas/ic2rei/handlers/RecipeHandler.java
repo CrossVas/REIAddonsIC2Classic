@@ -11,8 +11,6 @@ import me.shedaniel.rei.plugin.common.BuiltinPlugin;
 import me.shedaniel.rei.plugin.common.displays.crafting.DefaultCraftingDisplay;
 import net.minecraft.world.item.crafting.Recipe;
 
-import java.util.*;
-
 public class RecipeHandler implements DisplayVisibilityPredicate {
 
     public static final RecipeHandler INSTANCE = new RecipeHandler();

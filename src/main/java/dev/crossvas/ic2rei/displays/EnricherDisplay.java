@@ -2,12 +2,10 @@ package dev.crossvas.ic2rei.displays;
 
 import dev.crossvas.ic2rei.utils.CategoryIDs;
 import ic2.core.block.machines.recipes.misc.EnrichRecipe;
-import ic2.core.utils.helpers.StackUtil;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Arrays;

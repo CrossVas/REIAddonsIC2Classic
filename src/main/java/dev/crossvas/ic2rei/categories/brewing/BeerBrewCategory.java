@@ -1,6 +1,5 @@
 package dev.crossvas.ic2rei.categories.brewing;
 
-import dev.crossvas.ic2rei.IC2REI;
 import dev.crossvas.ic2rei.IC2REIPlugin;
 import dev.crossvas.ic2rei.displays.brewing.BeerBrewDisplay;
 import dev.crossvas.ic2rei.utils.CategoryIDs;
@@ -10,7 +9,6 @@ import ic2.core.platform.registries.IC2Blocks;
 import ic2.core.utils.helpers.StackUtil;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.shedaniel.math.Rectangle;
-import me.shedaniel.rei.api.client.config.ConfigObject;
 import me.shedaniel.rei.api.client.gui.Renderer;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;

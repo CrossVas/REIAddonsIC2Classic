@@ -13,7 +13,6 @@ import net.minecraft.world.item.Items;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Comparator;
 import java.util.List;
 
 /**

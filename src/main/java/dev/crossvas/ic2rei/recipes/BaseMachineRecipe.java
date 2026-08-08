@@ -14,7 +14,6 @@ public class BaseMachineRecipe {
     private final List<ItemStack> OUTPUTS;
     float CHANCE;
 
-
     public BaseMachineRecipe(IMachineRecipeList.RecipeEntry recipeEntry) {
         this.INPUT = recipeEntry.getInputs()[0].asIngredient();
         this.OUTPUTS = recipeEntry.getOutput().getAllOutputs();
